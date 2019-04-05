@@ -29,6 +29,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [Paper](https://academic.oup.com/mbe/article/35/9/2318/5040668)
   * [Software](https://github.com/bcm-uga/Loter)
 * [Comparison of local ancestry methods as of March 2018](https://academic.oup.com/bib/advance-article-abstract/doi/10.1093/bib/bby044/5047382)
-* Final for class:
+
+* Final for class
   * [Paper](https://docs.google.com/document/d/1QlbrgiLKPkVy-Au-3ti5TW6fP4YClN7w_6jRQNw7rGs/edit?usp=sharing)
   * [Presentation](https://docs.google.com/presentation/d/1LJXkkStQNTmNCr_zg6MTAqe_HDryur0adjWiqwoM06g/edit?usp=sharing)
