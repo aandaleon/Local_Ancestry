@@ -50,8 +50,18 @@ python RunRFMix.py PopPhased ./TestData/alleles1.txt ./TestData/classes.txt ./Te
   #./TestData/markerLocationsChr1.txt - one row per SNP and one column, with each row the genetic coordinates in cM
 cd TestData/
 Rscript getDiploidAccuraciesPopPhased.R
+cd ../..
 
+###Loter
+git clone https://github.com/bcm-uga/Loter.git
+cd Loter/python-package/
+python setup.py install
+cd ..
 
+#Test data
+loter_cli -r data/H_ceu.npy -r data/H_yri.npy -a data/H_mex.npy -f npy -o tmp.npy -n 8 -v #the example command they have doesn't include the -r flag
+  #example data is in numpy format; use -f vcf for .vcf files (what even is numpy format?)
+  #suggested haplotpye simulator: https://github.com/BioShock38/aede
 
 
 
