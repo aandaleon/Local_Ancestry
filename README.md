@@ -9,9 +9,9 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * 50% YRI/50% CEU, 6 generations, n = 20?
   * 50% YRI/50% CEU, 60 generations, n = 20?
 * Converting to software format
-  * PLINK to LAMP-LD
-  * PLINK to RFMix - see [Ad_PX_pipe steps 12-14](https://github.com/aandaleon/Ad_PX_pipe)
-  * PLINK to Loter
+  * VCF to LAMP-LD
+  * VCF to RFMix - see [Ad_PX_pipe steps 12-14](https://github.com/aandaleon/Ad_PX_pipe)
+  * VCF to Loter
 * Measure accuracy of softwares
   * Convert output to similar formats
 * Real genotypes
