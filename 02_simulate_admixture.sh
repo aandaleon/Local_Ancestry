@@ -6,7 +6,8 @@ head -n 3 pop_codes.txt
   #NA06986 CEU
   #NA06989 CEU
 git clone https://github.com/slowkoni/admixture-simulation.git #repo by the maintainer of RFMix
-
-
+cd admixture-simulation/
+python do-admixture-simulation.py --input-vcf /home/angela/1000G/1000G.vcf --sample-map ../pop_codes.txt --chromosome 22 --n-output 20 --n-generations 6 --output-basename test
+  #why does this take so long to load
 
 
