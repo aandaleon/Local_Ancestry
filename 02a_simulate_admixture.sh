@@ -1,5 +1,6 @@
 #simulate African-American admixture using 1000 Genomes Project genotypes populations YRI (Yoruba in Ibadan, Nigeria) and CEU (Utah Residents (CEPH) with Northern and Western European Ancestry)
 
+#filter input VCF and randomly sample for proportions
 awk -F',' '{if ($3 == "YRI" || $3 == "CEU") {print $1,$3}}' /home/angela/1000G/fams/1000G_pops_fam.csv | tail -n +2 > pop_codes.txt #get IDs and population codes of 1000G data that match YRI or CEU; also I'm semi-proud of doing this in awk
 head -n 3 pop_codes.txt
   #NA06985 CEU
@@ -7,6 +8,16 @@ head -n 3 pop_codes.txt
   #NA06989 CEU
 git clone https://github.com/slowkoni/admixture-simulation.git #repo by the maintainer of RFMix
 cd admixture-simulation/
+vcftools --vcf /home/angela/1000G/1000G.vcf --out 1000G_CEU_YRI_22 --keep ../pop_codes.txt --chr 22 --recode
+  #Keeping individuals in 'keep' list
+  #After filtering, kept 205 out of 2504 individuals
+  #Outputting VCF file...
+  #After filtering, kept 170949 out of a possible 1257350 Sites
+  #Run Time = 573.00 seconds
+Rscript 02b_sample_1000G.R #outputs splits of 80 YRI/20 CEU or 50/50 to subset vcf to
+vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_80_20 --keep pop_codes_80_20.txt --chr 22 --recode
+vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_50_50 --keep pop_codes_80_20.txt --chr 22 --recode
+
 python do-admixture-simulation.py --input-vcf /home/angela/1000G/1000G.vcf --sample-map ../pop_codes.txt --chromosome 22 --n-output 20 --n-generations 6 --output-basename test
   #why does this take so long to load
 
