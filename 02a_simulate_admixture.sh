@@ -14,11 +14,16 @@ vcftools --vcf /home/angela/1000G/1000G.vcf --out 1000G_CEU_YRI_22 --keep ../pop
   #Outputting VCF file...
   #After filtering, kept 170949 out of a possible 1257350 Sites
   #Run Time = 573.00 seconds
+vcf-query -l 1000G_CEU_YRI_22.recode.vcf > 1000G_CEU_YRI_22.recode.vcf_ids.txt
 Rscript 02b_sample_1000G.R #outputs splits of 80 YRI/20 CEU or 50/50 to subset vcf to
 vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_80_20 --keep pop_codes_80_20.txt --chr 22 --recode
-vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_50_50 --keep pop_codes_80_20.txt --chr 22 --recode
+vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_50_50 --keep pop_codes_50_50.txt --chr 22 --recode
+tail -n+2 /home/angela/1000GP_Phase3_combined/genetic_map_chr22_combined_b37.txt | awk -F' ' '{print "22",$1,$3}' | awk -v OFS="\t" '$1=$1' > genetic_map_chr22.txt #genetic map w/o "chr"
 
-python do-admixture-simulation.py --input-vcf /home/angela/1000G/1000G.vcf --sample-map ../pop_codes.txt --chromosome 22 --n-output 20 --n-generations 6 --output-basename test
-  #why does this take so long to load
-
-
+#four combinations of admixed pops to test
+python do-admixture-simulation.py --input-vcf 1000G_80_20.recode.vcf --sample-map pop_codes_80_20.txt --chromosome 22 --n-output 20 --n-generations 6 --genetic-map genetic_map_chr22.txt --output-basename admixed_80_20_6_gen
+python do-admixture-simulation.py --input-vcf 1000G_80_20.recode.vcf --sample-map pop_codes_80_20.txt --chromosome 22 --n-output 20 --n-generations 60 --genetic-map genetic_map_chr22.txt --output-basename admixed_80_20_60_gen
+python do-admixture-simulation.py --input-vcf 1000G_50_50.recode.vcf --sample-map pop_codes_50_50.txt --chromosome 22 --n-output 20 --n-generations 6 --genetic-map genetic_map_chr22.txt --output-basename admixed_50_50_6_gen
+python do-admixture-simulation.py --input-vcf 1000G_50_50.recode.vcf --sample-map pop_codes_50_50.txt --chromosome 22 --n-output 20 --n-generations 60 --genetic-map genetic_map_chr22.txt --output-basename admixed_50_50_60_gen
+rm *founders* #produced too much clutter
+rm *ref*
