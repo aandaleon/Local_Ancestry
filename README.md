@@ -3,14 +3,14 @@
 My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and Loter. This repository concerns running the actual comparative analysis, with paths directed to those on wheelerlab3 and only concerning chr. 22 for speed purposes. These analyses include:
 
 * [Downloading the softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/01_testing_softwares.sh)
-* [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02_simulate_admixture.sh)
+* [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02a_simulate_admixture.sh)
   * 80% YRI/20% CEU, 6 generations, n = 20?
   * 80% YRI/20% CEU, 60 generations, n = 20?
   * 50% YRI/50% CEU, 6 generations, n = 20?
   * 50% YRI/50% CEU, 60 generations, n = 20?
 * Converting to software format
   * VCF to LAMP-LD
-  * VCF to RFMix - see [Ad_PX_pipe steps 12-14](https://github.com/aandaleon/Ad_PX_pipe)
+  * VCF to RFMix
   * VCF to Loter
 * Measure accuracy of softwares
   * Convert output to similar formats
