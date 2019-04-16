@@ -15,7 +15,7 @@ vcftools --vcf /home/angela/1000G/1000G.vcf --out 1000G_CEU_YRI_22 --keep ../pop
   #Outputting VCF file...
   #After filtering, kept 170949 out of a possible 1257350 Sites
   #Run Time = 573.00 seconds
-bcftools +prune -l 0.6 -w 1000 1000G_CEU_YRI_22.recode.vcf -Ob -o 1000G_CEU_YRI_22.pruned.vcf #LAMP-LD doesn't work w/ over 50,000 SNPs, so LD-prune until chr. 22 is < 50,000; https://www.biostars.org/p/338289/
+bcftools +prune -l 0.6 -w 1000 1000G_CEU_YRI_22.recode.vcf -Ov -o 1000G_CEU_YRI_22.pruned.vcf #LAMP-LD doesn't work w/ over 50,000 SNPs, so LD-prune until chr. 22 is < 50,000; https://www.biostars.org/p/338289/
 vcf-query -l 1000G_CEU_YRI_22.pruned.vcf > 1000G_CEU_YRI_22.pruned.vcf_ids.txt
 Rscript ../02b_sample_1000G.R #outputs splits of 80 YRI/20 CEU or 50/50 to subset vcf to
 vcftools --vcf 1000G_CEU_YRI_22.pruned.vcf --out 1000G_80_20 --keep pop_codes_80_20.txt --chr 22 --recode
