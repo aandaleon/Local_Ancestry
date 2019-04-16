@@ -1,9 +1,9 @@
 #why is the admixture simulation script so weird
 library(data.table)
 library(dplyr)
-setwd("/home/angela/BIOI500_Local_Ancestry/admixture-simulation/")
+#setwd("/home/angela/BIOI500_Local_Ancestry/admixture-simulation/")
 
-ID_in_VCF <- fread("1000G_CEU_YRI_22.recode.vcf_ids.txt", header = F)
+ID_in_VCF <- fread("1000G_CEU_YRI_22.pruned.vcf_ids.txt", header = F)
 pop_codes <- fread("../pop_codes.txt", header = F)
 VCF_pop_codes <- left_join(ID_in_VCF, pop_codes, by = "V1")
 table(VCF_pop_codes$V2)
