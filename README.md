@@ -17,6 +17,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
 * Benchmarking (time & memory) with real genotypes
   * 1000G ASW (African-Americans in the Southwest US, n = NUMBER)
   * 1000G ACB (Afro-Carribeans in Barbados, n = NUMBER)
+  * MESA AFA (African-American, n = 233)
 
 ## Links
 * LAMP-LD 
