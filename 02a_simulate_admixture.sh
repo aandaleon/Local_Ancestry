@@ -8,16 +8,18 @@ head -n 3 pop_codes.txt
   #NA06989 CEU
 git clone https://github.com/slowkoni/admixture-simulation.git #repo by the maintainer of RFMix
 cd admixture-simulation/
+
 vcftools --vcf /home/angela/1000G/1000G.vcf --out 1000G_CEU_YRI_22 --keep ../pop_codes.txt --chr 22 --recode
   #Keeping individuals in 'keep' list
   #After filtering, kept 205 out of 2504 individuals
   #Outputting VCF file...
   #After filtering, kept 170949 out of a possible 1257350 Sites
   #Run Time = 573.00 seconds
-vcf-query -l 1000G_CEU_YRI_22.recode.vcf > 1000G_CEU_YRI_22.recode.vcf_ids.txt
+bcftools +prune -l 0.6 -w 1000 1000G_CEU_YRI_22.recode.vcf -Ob -o 1000G_CEU_YRI_22.pruned.vcf #LAMP-LD doesn't work w/ over 50,000 SNPs, so LD-prune until chr. 22 is < 50,000; https://www.biostars.org/p/338289/
+vcf-query -l 1000G_CEU_YRI_22.pruned.vcf > 1000G_CEU_YRI_22.pruned.vcf_ids.txt
 Rscript ../02b_sample_1000G.R #outputs splits of 80 YRI/20 CEU or 50/50 to subset vcf to
-vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_80_20 --keep pop_codes_80_20.txt --chr 22 --recode
-vcftools --vcf 1000G_CEU_YRI_22.recode.vcf --out 1000G_50_50 --keep pop_codes_50_50.txt --chr 22 --recode
+vcftools --vcf 1000G_CEU_YRI_22.pruned.vcf --out 1000G_80_20 --keep pop_codes_80_20.txt --chr 22 --recode
+vcftools --vcf 1000G_CEU_YRI_22.pruned.vcf --out 1000G_50_50 --keep pop_codes_50_50.txt --chr 22 --recode
 tail -n+2 /home/angela/1000GP_Phase3_combined/genetic_map_chr22_combined_b37.txt | awk -F' ' '{print "22",$1,$3}' | awk -v OFS="\t" '$1=$1' > genetic_map_chr22.txt #genetic map w/o "chr"
 
 #four combinations of admixed pops to test
