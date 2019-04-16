@@ -17,6 +17,10 @@ bcftools convert --hapsample --vcf-ids ../../admixture-simulation/admixed_80_20_
 bcftools convert --hapsample --vcf-ids YRI_ref.vcf -o YRI.haps
 bcftools convert --hapsample --vcf-ids CEU_ref.vcf -o CEU.haps
 
+python ../../03a2_bcftools_haps_to_LAMP-LD_haps.py --hap.gz admixed.haps.hap.gz --haps admixed.haps --adm #admixed haplotypes are special for some reason
+python ../../03a2_bcftools_haps_to_LAMP-LD_haps.py --hap.gz YRI.haps.hap.gz --haps YRI.haps
+python ../../03a2_bcftools_haps_to_LAMP-LD_haps.py --hap.gz CEU.haps.hap.gz --haps CEU.haps
 
-
-
+../../LAMPLD-v1.0/bin/unolanc2way 300 15 ../chr22.pos CEU.haps YRI.haps admixed.haps admixed_est.txt #version of LAMP-LD for 2-way admixture
+ #use default window size of 300 and default number of states HMM 15
+ #note: check the output of this morning of 4/16/19 - /home/angela/BIOI500_Local_Ancestry/sim_LAMPLD/80_20_6/admixed_est.txt
