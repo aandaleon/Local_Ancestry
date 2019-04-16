@@ -10,7 +10,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * 50% YRI/50% CEU, 60 generations, n = 20
 * Converting to software format
   * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_LAMP-LD_input.sh)
-  * VCF to RFMix
+  * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_RFMix_input.sh)
   * VCF to Loter
 * Measure accuracy of softwares
   * Convert output to similar formats
