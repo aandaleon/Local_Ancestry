@@ -4,12 +4,12 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
 
 * [Downloading the softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/01_testing_softwares.sh)
 * [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02a_simulate_admixture.sh)
-  * 80% YRI/20% CEU, 6 generations, n = 20?
-  * 80% YRI/20% CEU, 60 generations, n = 20?
-  * 50% YRI/50% CEU, 6 generations, n = 20?
-  * 50% YRI/50% CEU, 60 generations, n = 20?
+  * 80% YRI/20% CEU, 6 generations, n = 20
+  * 80% YRI/20% CEU, 60 generations, n = 20
+  * 50% YRI/50% CEU, 6 generations, n = 20
+  * 50% YRI/50% CEU, 60 generations, n = 20
 * Converting to software format
-  * VCF to LAMP-LD
+  * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a_make_LAMP-LD_input.sh)
   * VCF to RFMix
   * VCF to Loter
 * Measure accuracy of softwares
