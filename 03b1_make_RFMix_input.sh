@@ -20,4 +20,6 @@ bcftools index --threads 40 -f --tbi YRI_ref.vcf.gz > YRI_ref.vcf.tbi
 bcftools index --threads 40 -f --tbi CEU_ref.vcf.gz > CEU_ref.vcf.tbi
 bcftools index --threads 40 -f --tbi admixed.vcf.gz > admixed.vcf.tbi
 bcftools merge -Ov YRI_ref.vcf.gz CEU_ref.vcf.gz admixed.vcf.gz -o merged.vcf
+vcf-query -l merged.vcf > merged.vcf_ids.txt
 
+#make classes file
