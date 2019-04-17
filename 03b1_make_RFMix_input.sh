@@ -6,6 +6,8 @@ awk '{if ($2 == "YRI") {print $1}}' ../admixture-simulation/pop_codes_50_50.txt 
 awk '{if ($2 == "CEU") {print $1}}' ../admixture-simulation/pop_codes_50_50.txt > CEU_50.txt
 awk '{if ($2 == "YRI") {print $1}}' ../admixture-simulation/pop_codes_80_20.txt > YRI_80.txt
 awk '{if ($2 == "CEU") {print $1}}' ../admixture-simulation/pop_codes_80_20.txt > CEU_20.txt
+
+#4-16-19 #INCORRECT MAP FIX THIS ASAP
 awk '{print $3}' ../admixture-simulation/genetic_map_chr22.txt > chr22.snp_locations
 
 #80_20_6/
@@ -23,3 +25,9 @@ bcftools merge -Ov YRI_ref.vcf.gz CEU_ref.vcf.gz admixed.vcf.gz -o merged.vcf
 vcf-query -l merged.vcf > merged.vcf_ids.txt
 
 #make classes file
+Rscript ../../03b2_make_RFMix_classes.R merged.vcf_ids.txt
+
+#make haplotypes file
+bcftools convert --hapsample --vcf-ids merged.vcf -o merged.haps
+zcat merged.haps.hap.gz | awk '{ $1=""; $2=""; $3=""; $4=""; $5=""; print}' | sed 's/\s//g' > merged.haps #I'm impressed I could do this in one line tbh
+
