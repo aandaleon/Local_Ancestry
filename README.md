@@ -8,13 +8,13 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * 80% YRI/20% CEU, 60 generations, n = 20
   * 50% YRI/50% CEU, 6 generations, n = 20
   * 50% YRI/50% CEU, 60 generations, n = 20
-* Converting to software format
-  * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_LAMP-LD_input.sh)
-  * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_RFMix_input.sh)
-  * VCF to Loter
+* Converting to software format and run
+  * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_run_LAMP-LD.sh)
+  * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
+  * [VCF to Loter](https://github.com/aandaleon/Local_Ancestry/blob/master/03c1_make_run_Loter.sh)
 * Measure accuracy of softwares
   * Convert output to similar formats
-* Benchmarking (time & memory) with real genotypes
+* Benchmarking (time & memory) with real genotypes (may do simulated if I run out of time)
   * 1000G ASW (African-Americans in the Southwest US, n = NUMBER)
   * 1000G ACB (Afro-Carribeans in Barbados, n = NUMBER)
   * MESA AFA (African-American, n = 233)
