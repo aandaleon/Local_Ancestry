@@ -1,11 +1,16 @@
-#thankfully Loter seems deceptively easy (jk it never is)
-mkdir sim_Loter/
+#how is this somehow the most annoying software
+mkdir sim_Loter
 mkdir sim_Loter/80_20_6/
+mkdir sim_Loter/80_20_60/
+mkdir sim_Loter/50_50_6/
+mkdir sim_Loter/50_50_60/
+
+#RUN FROM WITHIN SPYDER CAUSE MY PIP IS BROKEN AND WONT INSTALL ALLEL ON WL3
+python 03c2_make_Loter_npy.py
 
 cd Loter/
-loter_cli -r ../sim_LAMPLD/80_20_6/YRI_ref.vcf -r ../sim_LAMPLD/80_20_6/CEU_ref.vcf -a ../admixture-simulation/admixed_80_20_6_gen.query.vcf -f vcf -o ../sim_Loter/80_20_6/results.txt
-  #this command doesn't work so I guess I'm running this in Spyder
-
+loter_cli -r ../sim_Loter/80_20_6/YRI.npy -r ../sim_Loter/80_20_6/YRI.npy -a ../sim_Loter/80_20_6/adm.npy -o ../sim_Loter/80_20_6/results.txt
+  #weird issues w/ trying to get allel installed (broke pip and now it won't work)
 
 
 
