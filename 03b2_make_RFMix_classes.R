@@ -13,4 +13,5 @@ colnames(vcf_ids) <- "IID"
 vcf_pops <- left_join(vcf_ids, pop_codes)
 vcf_pops$pop <- as.numeric(factor(vcf_pops$pop)) #convert pops to ints
 vcf_pops[is.na(vcf_pops)] <- 0
+vcf_pops <- vcf_pops %>% slice(rep(1:n(), each = 2)) #https://stackoverflow.com/questions/11121385/repeat-rows-of-a-data-frame/11121463
 write(paste(as.character(vcf_pops$pop), collapse = " "), "merged.classes")
