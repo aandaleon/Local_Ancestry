@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N testjob
+#PBS -S /bin/bash
+#PBS -l walltime=1:00:00
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=4gb 
+#PBS -o logs/${PBS_JOBNAME}.o${PBS_JOBID}.log
+#PBS -e logs/${PBS_JOBNAME}.e${PBS_JOBID}.err
+cd $PBS_O_WORKDIR
+
+#change memory usage to the necessary amount
+#change this when input is made
+
+sleep 60
+echo "Hi ${USER}, your script ran!" > testjob_output.txt
+echo "Congratulations, you are a superstar!" >> testjob_output.txt
