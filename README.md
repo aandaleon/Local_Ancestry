@@ -1,6 +1,6 @@
 # Local Ancestry
 
-My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and ELAI. The project originally included [Loter](https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msy126), but had difficulty computing, and all scripts from Loter analyses have been preserved. This repository concerns running the actual comparative analysis, with paths directed to those on wheelerlab3 and only concerning chr. 22 for speed purposes. These analyses include:
+My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and ELAI. The project originally included [Loter](https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msy126), but had difficulty computing, and all scripts from Loter analyses have been preserved. This repository concerns running the actual comparative analysis, with paths directed to those on wheelerlab3 and only concerning chr. 22 for speed purposes. I hope to have a future Wheeler lab member continue this project in real genotypes from the Multi-Ethnic Study of Atherosclerosis (MESA) and Modeling the Epidemiologic Transition Study (METS). Analyses performed include:
 
 * [Downloading the softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/01_testing_softwares.sh)
 * [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02a1_simulate_admixture.sh)
@@ -13,9 +13,9 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
   * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/)
 * [Measure accuracy of softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/04c_calc_accuracy.py)
-* Benchmarking (time & memory) with simulated and real genotypes
-  * 10, 20, 30, 40, 50, 75, and 100 simulated AFA; 80% YRI/20% CEU, 6 generations
-  * MESA AFA (African-American, n = 233)
+* [Benchmarking with simulated genotypes](https://github.com/aandaleon/Local_Ancestry/blob/master/05c1_make_benchmark_input.sh)
+  * 10, 20, 30, 40, 50, 75, and 100 simulated AFA
+    * 80% YRI/20% CEU, 6 generations
 
 ## Links
 * LAMP-LD 
