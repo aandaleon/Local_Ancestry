@@ -13,9 +13,8 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
   * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/)
 * [Measure accuracy of softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/04c_calc_accuracy.py)
-* Benchmarking (time & memory) with real genotypes (may do simulated if I run out of time)
-  * 1000G ASW (African-Americans in the Southwest US, n = NUMBER)
-  * 1000G ACB (Afro-Carribeans in Barbados, n = NUMBER)
+* Benchmarking (time & memory) with simulated and real genotypes
+  * 10, 20, 30, 40, 50, 75, and 100 simulated AFA; 80% YRI/20% CEU, 6 generations
   * MESA AFA (African-American, n = 233)
 
 ## Links
