@@ -4,7 +4,7 @@ Created on Fri Apr 19 14:22:35 2019
 #measure the accuracy of each software
 @author: Angela
 """
-
+from __future__ import division
 import csv
 import numpy as np
 import pandas as pd
@@ -30,16 +30,21 @@ def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format 
     return dos
 
 def calc_accuracy(ans_in, method_in):
-    return 0
+    method_eq = ans_in.eq(method_in) #equal to of dataframe and other, element wise; https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.eq.html#pandas.DataFrame.eq
+    acc = sum(method_eq.sum() / len(method_eq.index)) / len(method_eq.columns) #get avg accuracy for each person and avg over all
+    return acc
 
+print("Starting calculation of accuracies in LAMPLD, RFMix, and ELAI.")
+acc_results = []
 for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
-    #cohort = "80_20_6" 
+    print("Beginning calculating accuracy in " + cohort + ".")
     
     #load in answer and rs data
     rsids = np.loadtxt("admixture-simulation/admixed_snps.txt", dtype = str)
     ans = pd.read_csv("admixture-simulation/admixed_" + cohort + "_gen.result", delim_whitespace = True).drop("chm", axis = 1).drop("pos", axis = 1) #2 = YRI, 1 = CEU
     ans = ans.replace({1:0}).replace({2:1})
     ind_list = []
+    haps = ans.columns
     for hap_i in range(0, len(ans.columns)):
         if hap_i % 2 == 0:
             ind_list.append(ans.columns[hap_i][:-2])
@@ -47,7 +52,7 @@ for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
     
     #LAMPLD
     LAMPLD = pd.read_fwf("sim_LAMPLD/" + cohort + "/admixed_est.long", widths = [1] * len(ans), header = None).transpose()
-    LAMPLD.columns = ans.columns
+    LAMPLD.columns = haps
         #1 = YRI, 0 = CEU
 
     #RFMix is being read in super super weird so I have to do it in a convoluted way
@@ -57,8 +62,9 @@ for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
     for row in RFMix_csv:
         RFMix.append(row)
     RFMix = pd.DataFrame(RFMix).drop(40, axis = 1)
+    RFMix = RFMix.apply(pd.to_numeric)
     RFMix = RFMix.replace({1:0}).replace({2:1})
-    RFMix.columns = ans.columns
+    RFMix.columns = haps
     
     #ELAI in dosage format, change everything to match dosage
     ELAI = pd.read_csv("sim_ELAI/" + cohort + "/results.txt", delim_whitespace = True, header = None).transpose().round() #round all ELAI to 0, 1, 2
@@ -74,7 +80,10 @@ for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
     LAMPLD = hap2dos(LAMPLD)
     RFMix = hap2dos(RFMix)
     
-    #Measure accuracy of each method
-    
-    
-    
+    #Measure accuracy of each method and store
+    acc_results = [cohort, calc_accuracy(ans, LAMPLD), calc_accuracy(ans, RFMix), calc_accuracy(ans, ELAI)]
+    print("Completed calculating accuracy in " + cohort + ".")
+acc_results = pd.DataFrame(acc_results)
+acc_results.columns = ["cohort", "LAMPLD", "RFMix", "ELAI"]
+acc_results.to_csv("acc_results.csv", index = False)
+print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI. Have a nice day :).")
