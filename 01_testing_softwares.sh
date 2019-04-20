@@ -63,10 +63,14 @@ loter_cli -r data/H_ceu.npy -r data/H_yri.npy -a data/H_mex.npy -f npy -o tmp.np
   #example data is in numpy format; use -f vcf for .vcf files (what even is numpy format?)
   #suggested haplotpye simulator: https://github.com/BioShock38/aede
 
-
-
-
-
-
+###ELAI
+wget http://www.haplotype.org/download/elai.tar.gz
+cd elai/
+./elai-lin -g example/hap.ceu.chr22.inp -p 10 -g example/hap.yri.chr22.inp -p 11 -g example/admix-1cm.inp -p 1 -pos example/hgdp.chr22.pos -o test
+  #-g: genotypes in BIMBAM format; first line is number of inds and second line is number of SNPs
+  #-p: population laber (10 and 11 for CEU and YRI?)
+  #-pos: SNP position file
+  #-0: output prefix
+  
 
 
