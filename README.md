@@ -1,6 +1,6 @@
 # Local Ancestry
 
-My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and Loter. This repository concerns running the actual comparative analysis, with paths directed to those on wheelerlab3 and only concerning chr. 22 for speed purposes. These analyses include:
+My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and ELAI. The project originally included [Loter](https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msy126), but had difficulty computing, and all scripts from Loter analyses have been preserved. This repository concerns running the actual comparative analysis, with paths directed to those on wheelerlab3 and only concerning chr. 22 for speed purposes. These analyses include:
 
 * [Downloading the softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/01_testing_softwares.sh)
 * [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02a1_simulate_admixture.sh)
@@ -11,9 +11,9 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
 * Converting to software format and run
   * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_run_LAMP-LD.sh)
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
-  * [VCF to Loter](https://github.com/aandaleon/Local_Ancestry/blob/master/03c1_make_run_Loter.sh)
+  * ``[VCF to Loter](https://github.com/aandaleon/Local_Ancestry/blob/master/03c1_make_run_Loter.sh)``
+  * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/)
 * Measure accuracy of softwares
-  * Convert output to similar formats
 * Benchmarking (time & memory) with real genotypes (may do simulated if I run out of time)
   * 1000G ASW (African-Americans in the Southwest US, n = NUMBER)
   * 1000G ACB (Afro-Carribeans in Barbados, n = NUMBER)
@@ -26,9 +26,9 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
 * RFMix 
   * [Paper](https://www.sciencedirect.com/science/article/pii/S0002929713002899?via%3Dihub)
   * [Software](https://sites.google.com/site/rfmixlocalancestryinference/)
-* Loter 
-  * [Paper](https://academic.oup.com/mbe/article/35/9/2318/5040668)
-  * [Software](https://github.com/bcm-uga/Loter)
+* ELAI
+  * [Paper](http://www.genetics.org/content/196/3/625.long)
+  * [Software](http://www.haplotype.org/elai.html)
 * [Comparison of local ancestry methods as of March 2018](https://academic.oup.com/bib/advance-article-abstract/doi/10.1093/bib/bby044/5047382)
 * Final for class
   * [Paper](https://docs.google.com/document/d/1QlbrgiLKPkVy-Au-3ti5TW6fP4YClN7w_6jRQNw7rGs/edit?usp=sharing)
