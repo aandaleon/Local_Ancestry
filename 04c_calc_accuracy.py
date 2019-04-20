@@ -8,6 +8,7 @@ from __future__ import division
 import csv
 import numpy as np
 import pandas as pd
+import statistics
 
 def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format (ELAI)
     hap_in = hap_in.copy()
@@ -31,7 +32,8 @@ def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format 
 
 def calc_accuracy(ans_in, method_in):
     method_eq = ans_in.eq(method_in) #equal to of dataframe and other, element wise; https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.eq.html#pandas.DataFrame.eq
-    acc = sum(method_eq.sum() / len(method_eq.index)) / len(method_eq.columns) #get avg accuracy for each person and avg over all
+    #acc = sum(method_eq.sum() / len(method_eq.index)) / len(method_eq.columns) #get avg accuracy for each person and avg over all
+    acc = statistics.median(method_eq.sum() / len(method_eq.index)) #get median accuracy for each person and avg over all
     return acc
 
 print("Starting calculation of accuracies in LAMPLD, RFMix, and ELAI.")
@@ -81,9 +83,9 @@ for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
     RFMix = hap2dos(RFMix)
     
     #Measure accuracy of each method and store
-    acc_results = acc_results.append([cohort, calc_accuracy(ans, LAMPLD), calc_accuracy(ans, RFMix), calc_accuracy(ans, ELAI)])
+    acc_results.append([cohort, calc_accuracy(ans, LAMPLD), calc_accuracy(ans, RFMix), calc_accuracy(ans, ELAI)])
     print("Completed calculating accuracy in " + cohort + ".")
 acc_results = pd.DataFrame(acc_results)
 acc_results.columns = ["cohort", "LAMPLD", "RFMix", "ELAI"]
-acc_results.to_csv("acc_results.csv", index = False)
+acc_results.to_csv("acc_results_median_1.csv", index = False)
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI. Have a nice day :).")
