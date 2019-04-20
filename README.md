@@ -12,7 +12,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_run_LAMP-LD.sh)
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
   * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/)
-* Measure accuracy of softwares
+* [Measure accuracy of softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/04c_calc_accuracy.py)
 * Benchmarking (time & memory) with real genotypes (may do simulated if I run out of time)
   * 1000G ASW (African-Americans in the Southwest US, n = NUMBER)
   * 1000G ACB (Afro-Carribeans in Barbados, n = NUMBER)
