@@ -9,4 +9,5 @@ vcf_genetic_map <- left_join(vcf_SNPs, genetic_map, by = c("POS", "ID"))
 vcf_genetic_map$CHROM <- paste("chr", vcf_genetic_map$CHROM, sep = "")
 vcf_genetic_map$ID <- NULL
 vcf_genetic_map <- vcf_genetic_map[complete.cases(vcf_genetic_map),]
+vcf_genetic_map <- vcf_genetic_map[order(vcf_genetic_map$cM),]
 fwrite(vcf_genetic_map, "admixture-simulation/chr22.interpolated_genetic_map.pruned", sep = "\t", col.names = F, quote = F, na = "NA")
