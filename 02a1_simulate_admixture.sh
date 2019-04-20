@@ -35,4 +35,5 @@ python do-admixture-simulation.py --input-vcf 1000G_80_20.recode.vcf --sample-ma
 python do-admixture-simulation.py --input-vcf 1000G_80_20.recode.vcf --sample-map pop_codes_80_20.txt --chromosome 22 --n-output 20 --n-generations 60 --genetic-map chr22.interpolated_genetic_map.pruned --output-basename admixed_80_20_60_gen
 python do-admixture-simulation.py --input-vcf 1000G_50_50.recode.vcf --sample-map pop_codes_50_50.txt --chromosome 22 --n-output 20 --n-generations 6 --genetic-map chr22.interpolated_genetic_map.pruned --output-basename admixed_50_50_6_gen
 python do-admixture-simulation.py --input-vcf 1000G_50_50.recode.vcf --sample-map pop_codes_50_50.txt --chromosome 22 --n-output 20 --n-generations 60 --genetic-map chr22.interpolated_genetic_map.pruned --output-basename admixed_50_50_60_gen
+sed  '/##/d' admixed_80_20_6_gen.query.vcf | cut -f3 | tail -n+2 > admixed_snps.txt
 cd ..
