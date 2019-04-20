@@ -81,7 +81,7 @@ for cohort in ["80_20_6", "80_20_60", "50_50_6", "50_50_60"]:
     RFMix = hap2dos(RFMix)
     
     #Measure accuracy of each method and store
-    acc_results = [cohort, calc_accuracy(ans, LAMPLD), calc_accuracy(ans, RFMix), calc_accuracy(ans, ELAI)]
+    acc_results = acc_results.append([cohort, calc_accuracy(ans, LAMPLD), calc_accuracy(ans, RFMix), calc_accuracy(ans, ELAI)])
     print("Completed calculating accuracy in " + cohort + ".")
 acc_results = pd.DataFrame(acc_results)
 acc_results.columns = ["cohort", "LAMPLD", "RFMix", "ELAI"]
