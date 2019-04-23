@@ -3,8 +3,7 @@ mkdir -p benchmarking/
 awk '{if ($2 == "YRI") {print $1}}' pop_codes.txt > benchmarking/YRI.txt 
 awk '{if ($2 == "CEU") {print $1}}' pop_codes.txt > benchmarking/CEU.txt
 
-#for nind in 10 20 30 40 50 75 100; do #make the differing sizes of input; assuming all the simulation input files are already available in admixture-simulaton/
-for nind in 10; do
+for nind in 10 20 30 40 50 75 100; do #make the differing sizes of input; assuming all the simulation input files are already available in admixture-simulaton/
 	echo Making cohort size ${nind}.
 	mkdir -p benchmarking/sim_${nind}/
 	mkdir -p benchmarking/sim_${nind}/intermediate/
@@ -50,6 +49,4 @@ for nind in 10; do
 	echo Done making cohort size ${nind}.
 	cd ../../../
 done
-echo Done making all sizes of simulated genotypes. Have a nice day :).
-
-
+echo Done making all sizes of simulated genotypes.
