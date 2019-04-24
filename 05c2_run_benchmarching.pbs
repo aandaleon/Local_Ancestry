@@ -1,16 +1,29 @@
 #!/bin/bash
-#PBS -N testjob
+#PBS -N local_anc_benchmarking
 #PBS -S /bin/bash
-#PBS -l walltime=1:00:00
+#PBS -l walltime=120:00:00
 #PBS -l nodes=1:ppn=1
-#PBS -l mem=4gb 
+#PBS -l mem=16gb 
 #PBS -o logs/${PBS_JOBNAME}.o${PBS_JOBID}.log
 #PBS -e logs/${PBS_JOBNAME}.e${PBS_JOBID}.err
 cd $PBS_O_WORKDIR
+mkdir -p logs/
 
-#change memory usage to the necessary amount
-#change this when input is made
+#TIMES ARE AT THE TAIL OF THE OUTPUT FILE (software_sim${nind})
 
-sleep 60
-echo "Hi ${USER}, your script ran!" > testjob_output.txt
-echo "Congratulations, you are a superstar!" >> testjob_output.txt
+for nind in 10 20 30 40 50 75 100; do #for nind in 10; do
+	#LAMP-LD
+	#/home/angela/BIOI500_Local_Ancestry/LAMPLD-v1.0/bin/unolanc2way 300 15 sim_LAMPLD/chr22.pos benchmarking/sim_${nind}/intermediate/LAMP-LD_YRI.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_CEU.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_admixed.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_out.txt | /usr/bin/time -v /bin/bash >> benchmarking/LAMP-LD_sim_${nind}.txt
+	(/usr/bin/time -v /home/angela/BIOI500_Local_Ancestry/LAMPLD-v1.0/bin/unolanc2way 300 15 sim_LAMPLD/chr22.pos benchmarking/sim_${nind}/intermediate/LAMP-LD_YRI.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_CEU.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_admixed.haps benchmarking/sim_${nind}/intermediate/LAMP-LD_out.txt) 2> benchmarking/LAMP-LD_sim_${nind}.txt
+	
+	#RFMix
+	touch benchmarking/RFMix_sim_${nind}.txt #qsub is being weird so have to create beforehand
+	cd RFMix_v1.5.4/
+	(/usr/bin/time -v python /home/angela/BIOI500_Local_Ancestry/RFMix_v1.5.4/RunRFMix.py PopPhased ../benchmarking/sim_${nind}/intermediate/RFMix_merged.haps ../benchmarking/sim_${nind}/intermediate/merged.classes ../sim_RFMix/admixed_chr22.pos -o ../benchmarking/sim_${nind}/RFMIX_out.txt) 2> ../benchmarking/RFMix_sim_${nind}.txt
+	cd ..
+
+	#ELAI
+	cd elai/
+	(/usr/bin/time -v ./elai-lin -g ../benchmarking/sim_${nind}/intermediate/CEU.recode.geno.txt -p 10 -g ../benchmarking/sim_${nind}/intermediate/YRI.recode.geno.txt -p 11 -g ../benchmarking/sim_${nind}/intermediate/ELAI_admixed.recode.geno.txt -p 1 -pos ../sim_ELAI/80_20_6/admixed.recode.pos.txt -o ELAI_sim${nind}.txt) 2> ../benchmarking/ELAI_sim_${nind}.txt
+	cd ..
+done
