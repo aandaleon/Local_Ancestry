@@ -13,7 +13,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
   * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/)
 * [Measure accuracy of softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/04c_calc_accuracy.py)
-* [Benchmarking with simulated genotypes](https://github.com/aandaleon/Local_Ancestry/blob/master/05c1_make_benchmark_input.sh)
+* [Benchmarking with simulated genotypes](https://github.com/aandaleon/Local_Ancestry/blob/master/05a_make_benchmark_input.sh)
   * 10, 20, 30, 40, 50, 75, and 100 simulated AFA
     * 80% YRI/20% CEU, 6 generations
 
@@ -28,5 +28,5 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
   * [Paper](http://www.genetics.org/content/196/3/625.long)
   * [Software](http://www.haplotype.org/elai.html)
 * Final for class
-  * [Paper](https://docs.google.com/document/d/1QlbrgiLKPkVy-Au-3ti5TW6fP4YClN7w_6jRQNw7rGs/edit?usp=sharing)
+  * [Paper](https://drive.google.com/file/d/1P6rT8dlF-bJzI0oFpgY27vzTERCoOtMt/view?usp=sharing)
   * [Presentation](https://docs.google.com/presentation/d/1LJXkkStQNTmNCr_zg6MTAqe_HDryur0adjWiqwoM06g/edit?usp=sharing)
