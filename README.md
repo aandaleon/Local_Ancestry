@@ -19,7 +19,7 @@ My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three
 
 ## Links
 * BIOI 500 summaries
-  * [Paper](https://drive.google.com/file/d/1Jw0kWkGHloG0SBz0tEBQndx_VNglGd9m/view?usp=sharing)
+  * [Paper](https://docs.google.com/document/d/1YVKdQc5WmQK9lJFTgaxiBgNVxHsKWZ4x_5nJwLcCf-Q/edit?usp=sharing)
   * [Presentation](https://docs.google.com/presentation/d/1LJXkkStQNTmNCr_zg6MTAqe_HDryur0adjWiqwoM06g/edit?usp=sharing)
 * LAMP-LD 
   * [Paper](https://academic.oup.com/bioinformatics/article/28/10/1359/212139)
