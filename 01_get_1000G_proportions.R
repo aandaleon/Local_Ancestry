@@ -9,8 +9,6 @@ setwd("/home/angela/Local_Ancestry/")
 system("mkdir 1000G/ -p")
 setwd("1000G/")
 
-#system("awk -F'\t' '{if ($6 == \"YRI\" || $6 == \"CEU\" || $6 == \"PEL\" || $6 == \"MXL\") {print $1}}' /home/angela/1000G/phase3_corrected.psam > 1000G_IIDs.txt") #extract pop, CEU, NAT, and YRI IIDs
-
 HIS_ref <- fread("/home/angela/Ad_PX_pipe_data/RFMix/RefPop/HIS_pop.txt", header = F)
 AFA_ref <- fread("/home/angela/Ad_PX_pipe_data/RFMix/RefPop/AFA_pop.txt", header = F)
 ref <- unique(rbind(HIS_ref, AFA_ref))
@@ -18,10 +16,9 @@ ref <- ref %>% dplyr::select(V1, V3) #keep just IDs
 ref <- subset(ref, V3 != "IBS") #remove IBS
 fwrite(ref, "ref_pop.txt", quote = F, na = "NA", col.names = F, sep = "\t")
 
-proportions <- matrix(, nrow = 0, ncol = 5)
+proportions <- matrix(, nrow = 0, ncol = 4)
 
 for(pop in c("MXL", "PUR", "ACB", "ASW")){
-  #system("awk -F'\t' '{if ($6 == \"YRI\" || $6 == \"CEU\" || $6 == \"PEL\" || $6 == \"MXL\"|| $6 == \"" %&% pop %&% "\") {print $1, $6}}' /home/angela/1000G/phase3_corrected.psam > " %&% pop %&% ".pop")
   system("awk -F'\t' '{if ($6 == \"" %&% pop %&% "\") {print $1}}' /home/angela/1000G/phase3_corrected.psam > " %&% pop %&% ".pop")
   
   #make list of inds to extract
@@ -47,13 +44,22 @@ for(pop in c("MXL", "PUR", "ACB", "ASW")){
   pop_admixture$V3.y <- NULL
   
   #select 1st, 2nd, and 3rd quartile by Native American proportion
-  pop_admixture <- unique(pop_admixture[order(pop_admixture$V1),])
-  for(i in c(1, 2, 3)){
-    row_num <- i * nrow(pop_admixture)/4 #row to select
-    proportions <- rbind(proportions, c(pop, i, pop_admixture[row_num, 1], pop_admixture[row_num, 2], pop_admixture[row_num, 3]))
+  if(pop %in% c("MXL", "PUR")){
+    pop_admixture <- unique(pop_admixture[order(pop_admixture$V1, pop_admixture$V3),])
+  }else{
+    pop_admixture <- unique(pop_admixture[order(pop_admixture$V3),])
   }
+  
+  row_num <- nrow(pop_admixture)/2 #get median
+  proportions <- rbind(proportions, c(pop, pop_admixture[row_num, 1], pop_admixture[row_num, 2], pop_admixture[row_num, 3]))
 }
 
 proportions <- as.data.frame(proportions)
-colnames(proportions) <- c("pop", "quartile", "NAT", "CEU", "YRI")
+colnames(proportions) <- c("pop", "NAT", "CEU", "YRI")
 fwrite(proportions, "admixture_simulation_proportions.csv", na = "NA", quote = F)
+
+proportions <- fread("admixture_simulation_proportions.csv")
+proportions$NAT <- round(proportions$NAT * 45)
+proportions$CEU <- round(proportions$CEU * 45)
+proportions$YRI <- round(proportions$YRI * 45)
+fwrite(proportions, "admixture_simulation_nind.csv", na = "NA", quote = F)
