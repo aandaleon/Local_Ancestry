@@ -57,19 +57,19 @@ echo ELAI is annoying and you have to have a copy you can run locally to write t
 if [[ -f $NAT && $CEU && $YRI ]]; then
     echo "Running 3-way admixture between NAT, CEU, and YRI"
     cd /home/angela/BIOI500_Local_Ancestry/elai/
-    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 12 -g sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/$out_benchmarking.txt
+    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 12 -g sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/${out}_benchmarking.txt
 elif [[ -f $NAT && $CEU ]]; then
     echo "Running 2-way admixture between NAT and CEU"
     cd /home/angela/BIOI500_Local_Ancestry/elai/
-    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/$out_benchmarking.txt
+    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/${out}_benchmarking.txt
 elif [[ -f $YRI && $CEU ]]; then
     echo "Running 2-way admixture between CEU and YRI"
     cd /home/angela/BIOI500_Local_Ancestry/elai/
-    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/$out_benchmarking.txt
+    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_CEU.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/${out}_benchmarking.txt
 elif [[ -f $NAT && $YRI ]]; then
     echo "Running 2-way admixture between NAT and YRI"
     cd /home/angela/BIOI500_Local_Ancestry/elai/
-    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/$out_benchmarking.txt
+    (/usr/bin/time -v ./elai-lin -g $dir/sim_ELAI/${out}_NAT.recode.geno.txt -p 10 -g $dir/sim_ELAI/${out}_YRI.recode.geno.txt -p 11 -g $dir/sim_ELAI/${out}.recode.geno.txt -p 1 -pos $dir/sim_ELAI/${out}.recode.pos.txt -o ${out}) 2> $dir/sim_ELAI/results/${out}_benchmarking.txt
 else
     echo "Please input a proper combination of reference files for your cohort."
 fi
