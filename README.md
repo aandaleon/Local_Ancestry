@@ -4,8 +4,10 @@ My final project for Advanced Bioinformatics (BIOI 500) was a comparison of thre
 
 * [Generating ancestral proportions from 1000G populations](https://github.com/aandaleon/Local_Ancestry/blob/master/01_get_1000G_proportions.R)
 * [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02_sample_refs.R)
- * BRYC Latino proportions are from [The Genetic Ancestry of African Americans, Latinos, and European Americans across the United States](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4289685/)
+   * BRYC Latino proportions are from [The Genetic Ancestry of African Americans, Latinos, and European Americans across the United States](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4289685/)
  
+<center>
+
 |      | NAT | CEU | YRI |
 |------|-----|-----|-----|
 | MXL  | 60% | 40% | 0%  |
@@ -14,6 +16,8 @@ My final project for Advanced Bioinformatics (BIOI 500) was a comparison of thre
 | ASW  | 1%  | 26% | 73% |
 | EVEN | 33% | 33% | 33% |
 | BRYC | 18% | 65% | 6%  |
+
+</center>
 
 * Converting to software format and run
   * VCF to LAMP-LD
