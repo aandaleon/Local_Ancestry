@@ -9,7 +9,7 @@ My final project for Advanced Bioinformatics (BIOI 500) was a comparison of thre
 |      | NAT | CEU | YRI |
 |------|-----|-----|-----|
 | MXL  | 60% | 40% | 0%  |
-| PUR  | 16% | 84% | 0%` |
+| PUR  | 16% | 84% | 0% |
 | ACB  | 3%  | 10% | 87% |
 | ASW  | 1%  | 26% | 73% |
 | EVEN | 33% | 33% | 33% |
