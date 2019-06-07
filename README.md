@@ -1,21 +1,28 @@
 # Local Ancestry
 
-My final project for Advanced Bioinformatics (BIOI 500) is a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and ELAI. The project originally included [Loter](https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msy126), but had difficulty computing. This repository concerns running the actual comparative analysis, with paths directed to those on Wheeler Lab 3 and only concerning chr. 22 for speed purposes. My analyses are included in the paper and presentation links at the end of this README. I hope to have a future Wheeler lab member continue this project in real genotypic and transcriptomic data from the Multi-Ethnic Study of Atherosclerosis (MESA) and Modeling the Epidemiologic Transition Study (METS). Analyses performed include:
+My final project for Advanced Bioinformatics (BIOI 500) was a comparison of three local ancestry estimation softwares: LAMP-LD, RFMix, and ELAI. This repository builds upon the work in the original class project and runs six populations of different ancestral backgrounds and proportions with these softwares to compare accuracy and resource usage. We work to convert the genotypic format requirements of these softwares and streamline their usage. We will use these local ancestry softwares in real genotypic and transcriptomic data from the Multi-Ethnic Study of Atherosclerosis (MESA) and Modeling the Epidemiologic Transition Study to improve gene expression prediction in diverse populations. Analyses performed include:
 
-* [Downloading the softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/01_testing_softwares.sh)
-* [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02a1_simulate_admixture.sh)
-  * 80% YRI/20% CEU, 6 generations, n = 20
-  * 80% YRI/20% CEU, 60 generations, n = 20
-  * 50% YRI/50% CEU, 6 generations, n = 20
-  * 50% YRI/50% CEU, 60 generations, n = 20
+* [Generating ancestral proportions from 1000G populations](https://github.com/aandaleon/Local_Ancestry/blob/master/01_get_1000G_proportions.R)
+* [Simulating genotypes from 1000G CEU and YRI](https://github.com/aandaleon/Local_Ancestry/blob/master/02_sample_refs.R)
+ 
+<center>
+
+|      | NAT | CEU | YRI |
+|------|-----|-----|-----|
+| MXL  | 60% | 40% | 0%  |
+| PUR  | 16% | 84% | 0%  |
+| ACB  | 3%  | 10% | 87% |
+| ASW  | 1%  | 26% | 73% |
+| EVEN | 33% | 33% | 33% |
+| [BRYC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4289685/) | 18% | 65% | 6%  |
+
+</center>
+
 * Converting to software format and run
-  * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03a1_make_run_LAMP-LD.sh)
-  * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/03b1_make_run_RFMix.sh)
-  * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/blob/master/03d_make_run_ELAI.sh)
-* [Measure accuracy of softwares](https://github.com/aandaleon/Local_Ancestry/blob/master/04c_calc_accuracy.py)
-* [Benchmarking with simulated genotypes](https://github.com/aandaleon/Local_Ancestry/blob/master/05a_make_benchmark_input.sh)
-  * 10, 20, 30, 40, 50, 75, and 100 simulated AFA
-    * 80% YRI/20% CEU, 6 generations
+  * VCF to LAMP-LD
+  * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/04_RFMix.py)
+  * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/blob/master/05_ELAI.sh)
+* Measure accuracy and resource use of softwares
 
 ## Links
 * BIOI 500 summaries
