@@ -35,7 +35,7 @@ for ref_pop_name in ["NAT", "CEU", "YRI"]:
         os.system("bcftools view -S sim_RFMix/" + ref_pop_name + "_" + arg_pop_name + "_IDs.txt --force-samples -Oz -o sim_RFMix/" + ref_pop_name + "_" + arg_pop_name + "_ref.vcf.gz " + ref_bcf)
         os.system("bcftools index --threads 40 -f --tbi sim_RFMix/" + ref_pop_name + "_" + arg_pop_name + "_ref.vcf.gz > sim_RFMix/" + ref_pop_name + "_" + arg_pop_name + "_ref.vcf.tbi")
 
-#extract query and merge ref and query in the correct order (I now realize this is redundant but I already wrote it so whoops)
+#extract query and merge ref and query in the correct order (I now realize this is redundant but I already wrote it so whoops)... also this is useful for ELAI later
 os.system("cp " + args.query + " sim_RFMix/" + arg_pop_name + ".vcf; bgzip sim_RFMix/" + arg_pop_name + ".vcf")
 os.system("bcftools index --threads 40 -f --tbi sim_RFMix/" + arg_pop_name + ".vcf.gz > sim_RFMix/" + arg_pop_name + ".vcf.tbi")
 cohort_anc_pops_str = ""
@@ -45,8 +45,8 @@ os.system("bcftools merge -Ov " + cohort_anc_pops_str + "sim_RFMix/" + arg_pop_n
 
 #remove SNPs without genetic map coordinates
 os.system("awk '{print $1}' /home/angela/1000G/chr" + chrom + ".interpolated_genetic_map > sim_RFMix/chr" + chrom + ".interpolated_genetic_map.SNPs")
-os.system("vcftools --vcf sim_RFMix/" + arg_pop_name + "_merged_unfiltered.vcf --snps sim_RFMix/chr" + chrom + ".interpolated_genetic_map.SNPs --recode --out sim_RFMix/" + arg_pop_name + "_merged; mv sim_RFMix/" + arg_pop_name + "_merged.recode.vcf sim_RFMix/" + arg_pop_name + "_merged.vcf")
-os.system("vcf-query -l sim_RFMix/" + arg_pop_name + "_merged.vcf > sim_RFMix/" + arg_pop_name + "_merged.vcf_ids.txt")
+os.system("vcftools --vcf sim_RFMix/" + arg_pop_name + "_merged_unfiltered.vcf --max-missing 1 --snps sim_RFMix/chr" + chrom + ".interpolated_genetic_map.SNPs --recode --out sim_RFMix/" + arg_pop_name + "_merged; mv sim_RFMix/" + arg_pop_name + "_merged.recode.vcf sim_RFMix/" + arg_pop_name + "_merged.vcf")
+os.system("vcf-query -l sim_RFMix/" + arg_pop_name + "_merged.vcf > sim_RFMix/" + arg_pop_name + "_merged.vcf_ids.txt") #max missing has genotyping rate of 100%
 
 #make classes file #arg_pop_name = "pop_codes_80_20"
 vcf_IDs = pd.read_csv("sim_RFMix/" + arg_pop_name + "_merged.vcf_ids.txt", header = None, sep = "\t")
