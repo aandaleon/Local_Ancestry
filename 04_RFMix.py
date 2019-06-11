@@ -63,7 +63,7 @@ with open("sim_RFMix/" + arg_pop_name + ".classes", "w") as f:
 
 #make haplotypes file
 os.system("bcftools convert --hapsample --vcf-ids sim_RFMix/" + arg_pop_name + "_merged.vcf -o sim_RFMix/" + arg_pop_name + "_merged.haps")
-os.system("zcat sim_RFMix/" + arg_pop_name + "_merged.haps.hap.gz | awk '{ $1=\"\"; $2=\"\"; $3=\"\"; $4=\"\"; $5=\"\"; print}' | sed 's/\s//g' > sim_RFMix/" + arg_pop_name + "_merged.haps")
+os.system("zcat sim_RFMix/" + arg_pop_name + "_merged.haps.hap.gz | awk '{ $1=\"\"; $2=\"\"; $3=\"\"; $4=\"\"; $5=\"\"; print}' | sed 's/\s//g' | sed s/\\*//g > sim_RFMix/" + arg_pop_name + "_merged.haps")
 os.system("sed '/##/d' sim_RFMix/" + arg_pop_name + "_merged.vcf | cut -f3 > sim_RFMix/" + arg_pop_name + ".snps")
 
 #make cM map
