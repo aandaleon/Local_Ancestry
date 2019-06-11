@@ -16,7 +16,7 @@ do
       	 	YRI="$2"
 	        shift 2
 	        ;;
-      --adm) #path to admixed .vcf file
+      --adm) #path to admixed, LD-pruned .vcf file
           adm="$2"
 	        shift 2
 	        ;;
@@ -35,20 +35,20 @@ done
 mkdir -p sim_ELAI/
 mkdir -p sim_ELAI/results/
 
+#convert adm to bimbam
+/usr/bin/bcftools convert $adm -Ob -o sim_ELAI/$out.bcf.gz #runs into error when going directly from vcf  #pull LD pruned SNPs
+/usr/local/bin/plink --bcf sim_ELAI/$out.bcf.gz --write-snplist --recode bimbam --out sim_ELAI/$out
+
 #convert references to BIMBAM
 if [[ -f $NAT ]]; then
-  /usr/local/bin/plink --vcf $NAT --recode bimbam --out sim_ELAI/${out}_NAT
+  /usr/local/bin/plink --extract sim_ELAI/${out}.snplist --vcf $NAT --recode bimbam --out sim_ELAI/${out}_NAT
 fi
 if [[ -f $CEU ]]; then
-  /usr/local/bin/plink --vcf $CEU --recode bimbam --out sim_ELAI/${out}_CEU
+  /usr/local/bin/plink --extract sim_ELAI/${out}.snplist --vcf $CEU --recode bimbam --out sim_ELAI/${out}_CEU
 fi
 if [[ -f $YRI ]]; then
-  /usr/local/bin/plink --vcf $YRI --recode bimbam --out sim_ELAI/${out}_YRI
+  /usr/local/bin/plink --extract sim_ELAI/${out}.snplist --vcf $YRI --recode bimbam --out sim_ELAI/${out}_YRI
 fi
-
-#convert adm to bimbam
-/usr/bin/bcftools convert $adm -Ob -o sim_ELAI/$out.bcf.gz #runs into error when going directly from vcf
-/usr/local/bin/plink --bcf sim_ELAI/$out.bcf.gz --recode bimbam --out sim_ELAI/$out
 
 #run ELAI
 dir=$(pwd)
