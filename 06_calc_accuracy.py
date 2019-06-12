@@ -224,5 +224,5 @@ RFMix_acc = calc_accuracy(ans_rs, RFMix)
 ELAI_acc = calc_accuracy(ans_rs_dos, ELAI)
 
 with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
-    f.write(",".join([out, str(len(LAMPLD_pos.index)), str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1])]))
+    f.write(",".join([out, str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1])]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI. Have a nice day :).")
