@@ -111,20 +111,20 @@ def calc_accuracy(ans_in, method_in):
     mean_R2 = statistics.mean(np.square(cors))
     return med_R2, mean_R2
 
-#MXL
+#test data
 '''
-LAMPLD_long = "sim_LAMPLD/pruned_subset_MXLadmixed_est.long"
-LAMPLD_haps_hap_gz = "sim_LAMPLD/pruned_subset_MXLadmixed.haps.hap.gz"
-RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/MXL.rfmix.2.Viterbi.txt"
-RFMix_snps = "sim_RFMix_pruned_6-11-19/MXL.snps"
-#RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/MXL_merged.vcf_ids.txt"
-#RFMix_classes = "sim_RFMix_pruned_6-11-19/MXL.classes"
+LAMPLD_long = "sim_LAMPLD/pruned_subset_ASWadmixed_est.long"
+LAMPLD_haps_hap_gz = "sim_LAMPLD/pruned_subset_ASWadmixed.haps.hap.gz"
+RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/ASW.rfmix.2.Viterbi.txt"
+RFMix_snps = "sim_RFMix_pruned_6-11-19/ASW.snps"
+#RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/ASW_merged.vcf_ids.txt"
+#RFMix_classes = "sim_RFMix_pruned_6-11-19/ASW.classes"
 genetic_map_file = "chr22.interpolated_genetic_map"
-ELAI_results = "sim_ELAI_pruned_6-12-19/results/MXL.results.txt"
-ELAI_pos = "sim_ELAI_pruned_6-12-19/MXL.recode.pos.txt"
-pop_file = "admixture_simulation/MXL.txt"
-result_file = "MXL_simulation.result"
-out = "MXL"
+ELAI_results = "sim_ELAI_pruned_6-12-19/results/ASW.results.txt"
+ELAI_pos = "sim_ELAI_pruned_6-12-19/ASW.recode.pos.txt"
+pop_file = "admixture_simulation/ASW.txt"
+result_file = "ASW_simulation.result"
+out = "ASW"
 '''
 
 print("Starting calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ".")
@@ -199,9 +199,19 @@ compare_RFMix_class_to_result = pop.merge(RFMix_id_classes, left_index = True, r
 ELAI = pd.read_csv(ELAI_results, delim_whitespace = True, header = None).transpose().astype(int) #round all ELAI to pop codes
 ELAI_pos = pd.read_csv(ELAI_pos, delim_whitespace = True, header = None)
 rsid_pop = []
+
+if "ASW" in out: #remove native american from pop file if african american
+    pop = pop[pop.anc != "NAT"] 
+elif "ACB" in out:
+    pop = pop[pop.anc != "NAT"] 
+
 for rsid in ELAI_pos[0]:
     for pop_i in pop["anc"].drop_duplicates(): #get in the right order
+        #if pop_i == "NAT" and "ASW" in out or "ACB" in out: #skip Native American in African-American pops
+        #    print("it worked!")
+        #    next
         rsid_pop.append(rsid + "_" + pop_i)
+#print(rsid_pop[1:10])
 ELAI.index = rsid_pop
 ELAI.columns = ind_list
     
@@ -214,5 +224,5 @@ RFMix_acc = calc_accuracy(ans_rs, RFMix)
 ELAI_acc = calc_accuracy(ans_rs_dos, ELAI)
 
 with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
-    f.write(",".join([out, str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1]), "\n"]))
+    f.write(",".join([out, str(len(LAMPLD_pos.index)), str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1])]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI. Have a nice day :).")
