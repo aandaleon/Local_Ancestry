@@ -19,10 +19,10 @@ My final project for Advanced Bioinformatics (BIOI 500) was a comparison of thre
 </center>
 
 * Converting to software format and run
-  * VCF to LAMP-LD
+  * [VCF to LAMP-LD](https://github.com/aandaleon/Local_Ancestry/blob/master/03_LAMP_LD.sh)
   * [VCF to RFMix](https://github.com/aandaleon/Local_Ancestry/blob/master/04_RFMix.py)
   * [VCF to ELAI](https://github.com/aandaleon/Local_Ancestry/blob/master/05_ELAI.sh)
-* Measure accuracy and resource use of softwares
+* Measure [accuracy](https://github.com/aandaleon/Local_Ancestry/blob/master/06_calc_accuracy.py) and resource use of softwares
 
 ## Links
 * BIOI 500 summaries
