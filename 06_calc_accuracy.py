@@ -1,3 +1,5 @@
+#calculate accuracy of the results from LAMP-LD, RFMix, and ELAI
+#python3 06_calc_accuracy.py --LAMPLD.long /home/ryan/Local_ancestry/sim_LAMP/MXL_pruned/pruned_subset_MXLadmixed_est.long --LAMPLD.haps.hap.gz /home/ryan/Local_ancestry/sim_LAMP/MXL_pruned/pruned_subset_MXLadmixed.haps.hap.gz --RFMix.rfmix.2.Viterbi.txt sim_RFMix_pruned_6-11-19/results/MXL.rfmix.2.Viterbi.txt --RFMix.snps sim_RFMix_pruned_6-11-19/MXL.snps --ELAI.results.txt sim_ELAI_pruned_6-12-19/results/MXL.results.txt --ELAI.recode.pos.txt sim_ELAI_pruned_6-12-19/MXL.recode.pos.txt --pop admixture_simulation/MXL.txt --result /home/ryan/Local_ancestry/sim_LAMP/admixture-simulation/MXL_simulation.result --genetic-map chr22.interpolated_genetic_map --out MXL
 from __future__ import division
 import argparse
 import csv
@@ -11,8 +13,8 @@ parser.add_argument("--LAMPLD.long", type = str, action = "store", dest = "LAMPL
 parser.add_argument("--LAMPLD.haps.hap.gz", type = str, action = "store", dest = "LAMPLD_haps_hap_gz", required = True, help = "Precursor to input from LAMP-LD of the admixed population. Ends in '.haps.hap.gz'.")
 parser.add_argument("--RFMix.rfmix.2.Viterbi.txt", type = str, action = "store", dest = "RFMix_Viterbi", required = True, help = "Output from RFMix. Ends in '.rfmix.2.Viterbi.txt'.")
 parser.add_argument("--RFMix.snps", type = str, action = "store", dest = "RFMix_snps", required = True, help = "Precursor to input from RFMix of the SNP IDs included in analysis. Ends in '.snps'.")
-parser.add_argument("--RFMix.vcf_ids.txt", type = str, action = "store", dest = "RFMix_vcf_ids", required = True, help = "IDs of individuals in the merged vcf file. Ends in '.vcf_ids.txt'.")
-parser.add_argument("--RFMix.classes", type = str, action = "store", dest = "RFMix_classes", required = True, help = ".classes input of RFMix")
+#parser.add_argument("--RFMix.vcf_ids.txt", type = str, action = "store", dest = "RFMix_vcf_ids", required = True, help = "IDs of individuals in the merged vcf file. Ends in '.vcf_ids.txt'.")
+#parser.add_argument("--RFMix.classes", type = str, action = "store", dest = "RFMix_classes", required = True, help = ".classes input of RFMix")
 parser.add_argument("--ELAI.results.txt", type = str, action = "store", dest = "ELAI_results", required = True, help = "Output from ELAI. Ends in '.results.txt'.")
 parser.add_argument("--ELAI.recode.pos.txt", type = str, action = "store", dest = "ELAI_pos", required = True, help = "Input to ELAI that includes chr, rsid, and pos of SNPs. Ends in '.recode.pos.txt'.")
 parser.add_argument("--pop", type = str, action = "store", dest = "pop", required = True, help = "Pop code file that was input into admixture-simulation.py")
@@ -25,8 +27,8 @@ LAMPLD_long = args.LAMPLD_long
 LAMPLD_haps_hap_gz = args.LAMPLD_haps_hap_gz
 RFMix_Viterbi = args.RFMix_Viterbi
 RFMix_snps = args.RFMix_snps
-RFMix_vcf_ids = args.RFMix_vcf_ids
-RFMix_classes = args.RFMix_classes
+#RFMix_vcf_ids = args.RFMix_vcf_ids
+#RFMix_classes = args.RFMix_classes
 ELAI_results = args.ELAI_results
 ELAI_pos = args.ELAI_pos
 pop_file = args.pop
@@ -101,41 +103,28 @@ def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format 
     return dos
 
 def calc_accuracy(ans_in, method_in):
-    #ans_in = ans_rs_dos
-    #method_in = RFMix_dos
+    #ans_in = ans_pos
+    #method_in = LAMPLD
     ans_in = ans_in.reindex(method_in.index) #only keep shared rows between methods
-    method_eq = ans_in.eq(method_in) #equal to of dataframe and other, element wise; https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.eq.html#pandas.DataFrame.eq
-    #acc = sum(method_eq.sum() / len(method_eq.index)) / len(method_eq.columns) #get avg accuracy for each person and avg over all
-    acc = statistics.median(method_eq.sum() / len(method_eq.index)) #get median accuracy for each person and avg over all
-    return acc
+    cors = ans_in.corrwith(method_in).dropna() #correlations between true and estimated
+    med_R2 = statistics.median(np.square(cors))
+    mean_R2 = statistics.mean(np.square(cors))
+    return med_R2, mean_R2
 
 #MXL
 '''
-LAMPLD_long = "sim_LAMPLD/test_MXLadmixed_est.long"
-LAMPLD_haps_hap_gz = "sim_LAMPLD/test_MXLadmixed.haps.hap.gz"
+LAMPLD_long = "sim_LAMPLD/pruned_subset_MXLadmixed_est.long"
+LAMPLD_haps_hap_gz = "sim_LAMPLD/pruned_subset_MXLadmixed.haps.hap.gz"
 RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/MXL.rfmix.2.Viterbi.txt"
 RFMix_snps = "sim_RFMix_pruned_6-11-19/MXL.snps"
-RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/MXL_merged.vcf_ids.txt"
-RFMix_classes = "sim_RFMix_pruned_6-11-19/MXL.classes"
+#RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/MXL_merged.vcf_ids.txt"
+#RFMix_classes = "sim_RFMix_pruned_6-11-19/MXL.classes"
 genetic_map_file = "chr22.interpolated_genetic_map"
 ELAI_results = "sim_ELAI_pruned_6-12-19/results/MXL.results.txt"
 ELAI_pos = "sim_ELAI_pruned_6-12-19/MXL.recode.pos.txt"
 pop_file = "admixture_simulation/MXL.txt"
 result_file = "MXL_simulation.result"
 out = "MXL"
-
-LAMPLD_long = "sim_LAMPLD/test_ASWadmixed_est.long"
-LAMPLD_haps_hap_gz = "sim_LAMPLD/test_ASWadmixed.haps.hap.gz"
-RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/ASW.rfmix.2.Viterbi.txt"
-RFMix_snps = "sim_RFMix_pruned_6-11-19/ASW.snps"
-RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/ASW_merged.vcf_ids.txt"
-RFMix_classes = "sim_RFMix_pruned_6-11-19/ASW.classes"
-genetic_map_file = "chr22.interpolated_genetic_map"
-ELAI_results = "sim_ELAI_pruned_6-12-19/results/ASW.results.txt"
-ELAI_pos = "sim_ELAI_pruned_6-12-19/ASW.recode.pos.txt"
-pop_file = "admixture_simulation/ASW.txt"
-result_file = "ASW_simulation.result"
-out = "ASW"
 '''
 
 print("Starting calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ".")
@@ -163,12 +152,9 @@ pop = pd.read_csv(pop_file, delim_whitespace = True, header = None, index_col = 
 pop.columns = ["anc"]
 pop["anc_code"] = pd.factorize(pop["anc"])[0] + 1
 
-'''
 ##############
 ### LAMPLD ###
 ##############
-
-###6/12 - ERROR, WRONG NUMBER OF PEOPLE AS OUTPUT
 
 #get pos of snps that were input
 LAMPLD_pos = pd.read_csv(LAMPLD_haps_hap_gz, delim_whitespace = True, header = None)[[2]]
@@ -177,7 +163,8 @@ LAMPLD_pos.columns = ["pos"]
 #read in LAMP answers
 LAMPLD = pd.read_fwf(LAMPLD_long, widths = [1] * len(LAMPLD_pos.index), header = None).transpose()
 LAMPLD.columns = haps 
-'''
+LAMPLD.index = LAMPLD_pos.pos
+LAMPLD += 1 #0, 1 to 1, 2 ancestry coding
 
 #############
 ### RFMIX ###
@@ -193,6 +180,7 @@ RFMix = pd.DataFrame(RFMix).apply(pd.to_numeric).iloc[:, :-1] #last column is wo
 RFMix.columns = haps
 RFMix.index = np.loadtxt(RFMix_snps, dtype = str)[1:] #add rsids for comparing to ans later
 
+'''
 #make sure classes are in the same order as the .result file
 RFMix_vcf_ids = np.loadtxt(RFMix_vcf_ids, dtype = str)
 RFMix_ref_vcf_ids = [x for x in RFMix_vcf_ids if x not in ind_list] #only keep non-admixed
@@ -201,6 +189,7 @@ RFMix_classes = RFMix_classes[:int(len(RFMix_classes) - len(RFMix.columns))][::2
 RFMix_id_classes = pd.DataFrame({"ref_id": RFMix_ref_vcf_ids, "class_code": RFMix_classes}).set_index("ref_id")
 compare_RFMix_class_to_result = pop.merge(RFMix_id_classes, left_index = True, right_index = True) #this is ridiculous
 #IF WRONG FIXXXXXXXX
+'''
 
 ############
 ### ELAI ###
@@ -217,15 +206,13 @@ ELAI.index = rsid_pop
 ELAI.columns = ind_list
     
 #Convert to overall ancestry dosages (see ELAI)
-ans_pos_dos = hap2dos(ans_pos)
 ans_rs_dos = hap2dos(ans_rs)
-#LAMPLD_dos = hap2dos(LAMPLD)
-RFMix_dos = hap2dos(RFMix)
-    
+  
 #Measure accuracy of each method and store
-#calc_accuracy(ans, LAMPLD_dos)
-calc_accuracy(ans_rs_dos, RFMix_dos)
-calc_accuracy(ans_rs_dos, ELAI)
+LAMPLD_acc = calc_accuracy(ans_pos, LAMPLD)
+RFMix_acc = calc_accuracy(ans_rs, RFMix)
+ELAI_acc = calc_accuracy(ans_rs_dos, ELAI)
 
-
+with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
+    f.write(",".join([out, str(len(LAMPLD_pos.index)), str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1])]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI. Have a nice day :).")
