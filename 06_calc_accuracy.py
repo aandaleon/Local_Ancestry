@@ -227,12 +227,17 @@ RFMix_acc = calc_accuracy(ans_rs, RFMix, "RFMix")
 ELAI_acc = calc_accuracy(ans_rs_dos, ELAI, "ELAI")
 
 if args.plot_data: #output data to plot
+    LAMPLD_dos = hap2dos(LAMPLD)
+    RFMix_dos = hap2dos(RFMix)
     if not os.path.exists("plot_data/"):
         os.makedirs("plot_data/")
     ans_pos.to_csv("plot_data/" + args.out + "_ans_pos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
     ans_rs.to_csv("plot_data/" + args.out + "_ans_rs.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
     ans_rs_dos.to_csv("plot_data/" + args.out + "_ans_rs_dos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
+    LAMPLD_dos.to_csv("plot_data/" + args.out + "LAMPLD_dos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE) #easier to plot if they're all the same
+    RFMix_dos.to_csv("plot_data/" + args.out + "RFMix_dos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
     
+
 with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
     f.write(",".join([out, str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1]) + "\n"]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ". Have a nice day :).")
