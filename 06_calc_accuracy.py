@@ -21,6 +21,7 @@ parser.add_argument("--pop", type = str, action = "store", dest = "pop", require
 parser.add_argument("--result", type = str, action = "store", dest = "result", required = True, help = "True local ancestry output by admixture-simulation.py. Ends in '.result'")
 parser.add_argument("--genetic-map", type = str, action = "store", dest = "genetic_map", required = True, help = "Interpolated genetic map file from https://github.com/joepickrell/1000-genomes-genetic-maps.")
 parser.add_argument("--out", type = str, action = "store", dest = "out", required = True, help = "Prefix for accuracy output. Use population name (Ex. 'MXL').")
+parser.add_argument("--AFA", action = "store_true", dest = "AFA", default = False, help = "Include this flag if the population is African-American but does not have any Native American in the reference panel used.")
 args = parser.parse_args() #then pass these arguments to further things
 
 LAMPLD_long = args.LAMPLD_long
@@ -35,12 +36,13 @@ pop_file = args.pop
 result_file = args.result
 genetic_map_file = args.genetic_map
 out = args.out
+AFA = args.AFA
 
 def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format (ELAI)
-    #hap_in = ans_pos
+    #hap_in = ans_rs
     hap_in = hap_in.copy()
     dos = []
-    if pop["anc_code"].values.max() == 2: #number of rows to make; two way admixture
+    if pop["anc_code"].values.max() == 2 or AFA: #number of rows to make; two way admixture
         for index_id in hap_in.index:
             row_1 = []
             row_2 = []
@@ -113,18 +115,19 @@ def calc_accuracy(ans_in, method_in):
 
 #test data
 '''
-LAMPLD_long = "sim_LAMPLD/pruned_subset_ASWadmixed_est.long"
-LAMPLD_haps_hap_gz = "sim_LAMPLD/pruned_subset_ASWadmixed.haps.hap.gz"
-RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/ASW.rfmix.2.Viterbi.txt"
-RFMix_snps = "sim_RFMix_pruned_6-11-19/ASW.snps"
-#RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/ASW_merged.vcf_ids.txt"
-#RFMix_classes = "sim_RFMix_pruned_6-11-19/ASW.classes"
+LAMPLD_long = "sim_LAMPLD/pruned_subset_ACBadmixed_est.long"
+LAMPLD_haps_hap_gz = "sim_LAMPLD/pruned_subset_ACBadmixed.haps.hap.gz"
+RFMix_Viterbi = "sim_RFMix_pruned_6-11-19/results/ACB.rfmix.2.Viterbi.txt"
+RFMix_snps = "sim_RFMix_pruned_6-11-19/ACB.snps"
+#RFMix_vcf_ids = "sim_RFMix_pruned_6-11-19/ACB_merged.vcf_ids.txt"
+#RFMix_classes = "sim_RFMix_pruned_6-11-19/ACB.classes"
 genetic_map_file = "chr22.interpolated_genetic_map"
-ELAI_results = "sim_ELAI_pruned_6-12-19/results/ASW.results.txt"
-ELAI_pos = "sim_ELAI_pruned_6-12-19/ASW.recode.pos.txt"
-pop_file = "admixture_simulation/ASW.txt"
-result_file = "ASW_simulation.result"
-out = "ASW"
+ELAI_results = "sim_ELAI_pruned_6-12-19/results/ACB.results.txt"
+ELAI_pos = "sim_ELAI_pruned_6-12-19/ACB.recode.pos.txt"
+pop_file = "admixture_simulation/ACB.txt"
+result_file = "ACB_simulation.result"
+out = "ACB"
+AFA = True
 '''
 
 print("Starting calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ".")
@@ -200,18 +203,13 @@ ELAI = pd.read_csv(ELAI_results, delim_whitespace = True, header = None).transpo
 ELAI_pos = pd.read_csv(ELAI_pos, delim_whitespace = True, header = None)
 rsid_pop = []
 
-if "ASW" in out: #remove native american from pop file if african american
+if AFA: #remove native american from pop file if african american
     pop = pop[pop.anc != "NAT"] 
-elif "ACB" in out:
-    pop = pop[pop.anc != "NAT"] 
+    pop.anc_code = pop.anc_code - 1
 
 for rsid in ELAI_pos[0]:
     for pop_i in pop["anc"].drop_duplicates(): #get in the right order
-        #if pop_i == "NAT" and "ASW" in out or "ACB" in out: #skip Native American in African-American pops
-        #    print("it worked!")
-        #    next
         rsid_pop.append(rsid + "_" + pop_i)
-#print(rsid_pop[1:10])
 ELAI.index = rsid_pop
 ELAI.columns = ind_list
     
@@ -223,6 +221,6 @@ LAMPLD_acc = calc_accuracy(ans_pos, LAMPLD)
 RFMix_acc = calc_accuracy(ans_rs, RFMix)
 ELAI_acc = calc_accuracy(ans_rs_dos, ELAI)
 
-with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
-    f.write(",".join([out, str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1]), "\n"]))
+with open("accuracy_results_noLAMPLD.csv", 'a+') as f: #give user choice to change this later
+    f.write(",".join([out, str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1]) + "\n"]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ". Have a nice day :).")
