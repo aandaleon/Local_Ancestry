@@ -4,6 +4,7 @@ from __future__ import division
 import argparse
 import csv
 import numpy as np
+import os
 import pandas as pd
 import statistics
 
@@ -22,6 +23,7 @@ parser.add_argument("--result", type = str, action = "store", dest = "result", r
 parser.add_argument("--genetic-map", type = str, action = "store", dest = "genetic_map", required = True, help = "Interpolated genetic map file from https://github.com/joepickrell/1000-genomes-genetic-maps.")
 parser.add_argument("--out", type = str, action = "store", dest = "out", required = True, help = "Prefix for accuracy output. Use population name (Ex. 'MXL').")
 parser.add_argument("--AFA", action = "store_true", dest = "AFA", default = False, help = "Include this flag if the population is African-American but does not have any Native American in the reference panel used.")
+parser.add_argument("--plot_data", action = "store_true", dest = "plot_data", default = False, help = "Output data to be used for visual comparison of true vs. estimated.")
 args = parser.parse_args() #then pass these arguments to further things
 
 LAMPLD_long = args.LAMPLD_long
@@ -104,9 +106,12 @@ def hap2dos(hap_in): #convert haplotypes (ans, LAMP-LD, RFMix) to dosage format 
     dos = dos.astype(int) #simplify by keeping everything integers
     return dos
 
-def calc_accuracy(ans_in, method_in):
-    #ans_in = ans_pos
-    #method_in = LAMPLD
+def calc_accuracy(ans_in, method_in, out_plot_prefix = ""):
+    if args.plot_data: #output data to plot
+        if not os.path.exists("plot_data/"):
+            os.makedirs("plot_data/")
+        method_in.to_csv("plot_data/" + args.out + "_" + out_plot_prefix + ".csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
+        ans_in.to_csv("plot_data/" + args.out + "_ans.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
     ans_in = ans_in.reindex(method_in.index) #only keep shared rows between methods
     cors = ans_in.corrwith(method_in).dropna() #correlations between true and estimated
     med_R2 = statistics.median(np.square(cors))
@@ -217,10 +222,17 @@ ELAI.columns = ind_list
 ans_rs_dos = hap2dos(ans_rs)
   
 #Measure accuracy of each method and store
-LAMPLD_acc = calc_accuracy(ans_pos, LAMPLD)
-RFMix_acc = calc_accuracy(ans_rs, RFMix)
-ELAI_acc = calc_accuracy(ans_rs_dos, ELAI)
+LAMPLD_acc = calc_accuracy(ans_pos, LAMPLD, "LAMPLD")
+RFMix_acc = calc_accuracy(ans_rs, RFMix, "RFMix")
+ELAI_acc = calc_accuracy(ans_rs_dos, ELAI, "ELAI")
 
+if args.plot_data: #output data to plot
+    if not os.path.exists("plot_data/"):
+        os.makedirs("plot_data/")
+    ans_pos.to_csv("plot_data/" + args.out + "_ans_pos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
+    ans_rs.to_csv("plot_data/" + args.out + "_ans_rs.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
+    ans_rs_dos.to_csv("plot_data/" + args.out + "_ans_rs_dos.csv", na_rep = "NA", index = True, quoting = csv.QUOTE_NONE)
+    
 with open("accuracy_results.csv", 'a+') as f: #give user choice to change this later
     f.write(",".join([out, str(LAMPLD_acc[0]), str(LAMPLD_acc[1]), str(RFMix_acc[0]), str(RFMix_acc[1]), str(ELAI_acc[0]), str(ELAI_acc[1]) + "\n"]))
 print("Completed calculation of accuracies in LAMPLD, RFMix, and ELAI in " + out + ". Have a nice day :).")
