@@ -5,8 +5,8 @@ library(ggplot2)
 library(reshape)
 "%&%" = function(a, b) paste(a, b, sep = "")
 setwd("/home/angela/Local_Ancestry/plot_data/")
-pop_name <- "ACB_pruned" #should be the only part that changes
-ancs <- c("YRI", "CEU")
+pop_name <- "MXL_thinned" #should be the only part that changes
+ancs <- c("CEU", "NAT")
 
 #import all as dosages for simplicity
 ans <- fread(pop_name %&% "_ans_rs_dos.csv")
@@ -69,12 +69,12 @@ for(ind_index in 2:length(colnames(ans))){
   ind_df <- left_join(ind_df, genetic_map_cM, by = "rs")
   ind_df$rs_anc <- gsub(".*_", "", ind_df$rs_anc)
   ind_df <- ind_df %>% dplyr::select(rs_anc, cM, ans, LAMPLD, RFMix, ELAI) #change to plot other things
+  ind_df <- ind_df[complete.cases(ind_df),]
   ind_melt <- melt(ind_df, id = c("rs_anc", "cM"))
   
   ind_plot <- ggplot() + 
     geom_point(data = ind_melt, aes(x = cM, y = value, color = rs_anc), alpha = 0.5) +
     facet_wrap(~ variable, nrow = 4) + 
-    #geom_bar(stat = "identity") + 
     labs(color = "Pop.", y = "Dosage", title = ind) + 
     theme_bw() + 
     theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5)) +
@@ -87,5 +87,3 @@ for (i in 2:length(colnames(ans))) {
   print(plot_list[[i]])
 }
 dev.off()
-
-
